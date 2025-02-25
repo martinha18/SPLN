@@ -13,7 +13,8 @@ def main():
     tokens = []
     for txt in cl.text():
         l = lexer(txt)
-        print(l)
+        #print(l)
         tokens.append(l)
     c = counter(tokens)
     print(c)
+    return c
