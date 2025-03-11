@@ -1,5 +1,6 @@
 import sys
 import json
+from base import frequencia_relativa
 
 def get_ratio(our_dict, corpus):
     result = {}
@@ -9,6 +10,18 @@ def get_ratio(our_dict, corpus):
         else:
             result[word] = 0
     return result
+
+def show_surprises(ratio):
+    surprise = []
+    new = []
+    for word, value in ratio.items():
+        if int(value) > 50000 or value == 0:
+            new.append(word)
+        elif int(value) > 50:
+            surprise.append(word)
+
+    print(f"Surprises: {surprise}\n")
+    print(f"New: {new}")
 
 def read_json(source=None):
     try:
@@ -30,10 +43,12 @@ def main():
         data = read_json()
 
     corpus = read_json("./corpus/corpus.json")
+    f_corpus = frequencia_relativa(corpus)
 
-    ratio = get_ratio(data, corpus)
+    ratio = get_ratio(data, f_corpus)
+    show_surprises(ratio)
 
-    print(json.dumps(ratio, indent=4, ensure_ascii=False))
+    #print(json.dumps(ratio, indent=4, ensure_ascii=False))
 
 
 if __name__ == "__main__":
